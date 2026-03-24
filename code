@@ -1,0 +1,60 @@
+% MODELING SPECIALIST SECTION
+
+% We have 2 springs with 3 nodes, u1, u2, and u3. 
+% DOF = 3
+
+% u1 (fixed) ---- k1 ---- u2 ---- k2 ---- u3 (fixed)
+
+%nodes u1 and u3 are fixed, u1 is at point 0 and u3 is at
+% point 1, thus the total lenght is 1 meters.
+
+L=1; %total length of system in meters
+
+u1=0;
+u2=0.5;
+u3=L;
+
+%node vector or displacement vector
+displacement_d = [u1; u2; u3];
+
+% Spring stiffness:
+
+k1= 100; %for spring 1
+k2= 125; %for spring 2
+
+%elementary matrix 1
+k1_el = k1*[1 -1; -1 1];
+
+% Elementary matrix 2
+k2_el = k2 * [1 -1; -1 1];
+
+% 1. Initialize Global Matrix (3x3 for 3 nodes)
+K_global = zeros(3,3);
+
+% 2. Assemble Element 1 (Nodes 1 and 2)
+K_global(1:2, 1:2) = K_global(1:2, 1:2) + k1_el;
+
+% 3. Assemble Element 2 (Nodes 2 and 3)
+K_global(2:3, 2:3) = K_global(2:3, 2:3) + k2_el;
+
+% Resulting Matrix K_global looks like:
+% [ k1,  -k1,    0 ]
+% [-k1, k1+k2, -k2 ]
+% [  0,  -k2,   k2 ]
+
+% 4. Boundary Conditions
+% Since u1 and u3 are fixed (u=0), we solve for the free node (u2)
+% Let's assume a Force F = 10 Newtons is applied at u2
+F_vector = [0; 10; 0]; 
+
+% Reducing the system: We only care about the middle row/column for u2
+K_reduced = K_global(2,2); 
+F_reduced = F_vector(2);
+
+% 5. Solve for displacement (u = F/K)
+u2_solved = F_reduced / K_reduced;
+
+fprintf('The displacement at node u2 is: %.4f meters\n', u2_solved);
+
+
+
