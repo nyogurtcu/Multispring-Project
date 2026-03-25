@@ -1,3 +1,5 @@
+clear all;
+clc;
 % MODELING SPECIALIST SECTION
 
 % We have 2 springs with 3 nodes, u1, u2, and u3. 
