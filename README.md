@@ -1,5 +1,4 @@
 # Multispring-Project
-CCNY Computer Methods in Engineering Class of Fall 2025.
 
 Objective: Solving the equilibrium equation Ku=f.
 
